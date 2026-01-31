@@ -1,28 +1,24 @@
 FROM python:3.12-slim
 
-ENV PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1 \
-    APP_HOME=/app
+WORKDIR /app
 
-WORKDIR $APP_HOME
-
-# System deps
+# Install system deps
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends nginx supervisor && \
+    apt-get install -y --no-install-recommends nginx && \
     rm -rf /var/lib/apt/lists/*
 
-# Python deps
+# Install Python deps
 RUN pip install fastapi uvicorn[standard] pydantic sqlite-utils
 
-# Copy app
+# Copy backend and frontend
 COPY backend ./backend
 COPY frontend ./frontend
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Nginx setup
+# Serve frontend via symlink
 RUN rm -rf /var/www/html && ln -s /app/frontend /var/www/html
 
 EXPOSE 80
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start backend + nginx
+CMD uvicorn backend.main:app --host 0.0.0.0 --port 8000 & nginx -g "daemon off;"
