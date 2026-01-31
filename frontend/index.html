@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home Cost–Benefit Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Home Cost–Benefit Tracker</h1>
+        <p>Prioritise repairs and upgrades by cost vs benefit.</p>
+    </header>
+
+    <main>
+        <div class="grid">
+            <section class="card">
+                <h2>Add item</h2>
+                <form id="item-form">
+                    <label>
+                        Description
+                        <input type="text" id="description" required>
+                    </label>
+                    <label>
+                        Cost ($)
+                        <input type="number" id="cost" min="0" step="1" required>
+                    </label>
+                    <label>
+                        Severity (1–5)
+                        <input type="number" id="severity" min="1" max="5" required>
+                    </label>
+                    <label>
+                        Frequency (1–5)
+                        <input type="number" id="frequency" min="1" max="5" required>
+                    </label>
+                    <button type="submit">Add</button>
+                </form>
+            </section>
+
+            <section class="card">
+                <h2>Prioritised list</h2>
+                <table id="items-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Cost</th>
+                            <th>Severity</th>
+                            <th>Frequency</th>
+                            <th>Benefit</th>
+                            <th>Cost score</th>
+                            <th>Net</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-body">
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+
+    <div id="help-toggle" class="help-toggle">❓</div>
+
+    <div id="help-panel" class="help-panel">
+        <div class="help-panel-inner">
+            <h2>How scoring works</h2>
+
+            <h3>Severity (1–5)</h3>
+            <ul>
+                <li><strong>1</strong> — Cosmetic only</li>
+                <li><strong>2</strong> — Minor annoyance</li>
+                <li><strong>3</strong> — Moderate issue</li>
+                <li><strong>4</strong> — Major disruption</li>
+                <li><strong>5</strong> — Serious issue or safety risk</li>
+            </ul>
+
+            <h3>Frequency (1–5)</h3>
+            <ul>
+                <li><strong>1</strong> — Rare</li>
+                <li><strong>2</strong> — Occasional</li>
+                <li><strong>3</strong> — Regular</li>
+                <li><strong>4</strong> — Frequent</li>
+                <li><strong>5</strong> — Constant</li>
+            </ul>
+
+            <h3>Cost score</h3>
+            <p>Calculated automatically based on the dollar cost.</p>
+
+            <h3>Net score</h3>
+            <p>Higher = better value to do sooner.</p>
+
+            <button id="help-close" class="help-close">Close</button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
